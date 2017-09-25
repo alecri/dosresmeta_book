@@ -1,0 +1,89 @@
+---
+title: "Dose-response meta-analysis"
+author: "Alessio Crippa"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [bib/books.bib, bib/packages.bib, bib/articles.bib]
+biblio-style: apalike
+link-citations: no
+description: "My description"
+---
+
+```{r setup, include=FALSE}
+# Current version information. date here should match the date in the YAML above.
+version <- "0.0.0"
+date <- format(Sys.time(), '%B %d, %Y')
+
+# Latest release dates
+latest_release_version <- "0.0.0"
+latest_release_date <- "January 01, 2018"
+
+# Set output options
+options(width = 80, digits = 4)
+knitr::opts_chunk$set(
+  tidy = FALSE, 
+  out.width='\\textwidth', 
+  fig.align = "center", 
+  comment = NA
+)
+
+# Packages needed for following code in book
+needed_pkgs <- c(
+  "tidyverse", "dosresmeta" 
+  )
+new_pkgs <- needed_pkgs[!(needed_pkgs %in% installed.packages())]
+if(length(new_pkgs)) {
+  install.packages(new_pkgs, repos = "http://cran.rstudio.com")
+}
+
+# Additional packages needed internally to create book, but not for following code in book
+internal_needed_pkgs <- c("devtools", "webshot", "tufte", "mvtnorm", "stringr")
+internal_new_pkgs <- internal_needed_pkgs[!(internal_needed_pkgs %in% installed.packages())]
+if(length(internal_new_pkgs)) {
+  install.packages(internal_new_pkgs, repos = "http://cran.rstudio.com")
+}
+
+# Check that phantomjs is installed to create screenshots of apps
+if(is.null(webshot:::find_phantom()))
+  webshot::install_phantomjs()
+
+# Automatically create a bib database for R packages
+knitr::write_bib(
+  c(.packages(), "bookdown", "knitr", "rmarkdown", "dosresmeta"), 
+  "bib/packages.bib"
+  )
+
+# Add all simulation results here
+dir.create("rds")
+
+# Add all knitr::purl()'ed chapter R scripts here
+dir.create("docs/scripts")
+
+# purl R scripts. For some reason this needs to be run manually:
+if(FALSE){
+  # Note order matters here:
+  chapter_titles <- c("getting-started", "viz", "tidy", "wrangling", 
+                      "regression", "sim", "hypo", "ci")
+  chapter_numbers <- stringr::str_pad(2:(length(chapter_titles) + 1), 2, "left", pad = "0")
+  for(i in 1:length(chapter_numbers)){
+    Rmd_file <- stringr::str_c(chapter_numbers[i], "-", chapter_titles[i], ".Rmd")
+    R_file <- stringr::str_c("docs/scripts/", chapter_numbers[i], "-", chapter_titles[i], ".R")
+    knitr::purl(Rmd_file, R_file)
+  }
+}
+```
+
+# Introduction {#intro}
+
+Some text
+
+
+## First subtitle {#label1}
+
+Some text
+
+### First sub-subtitle {#sublabel1}
+
+Some text and other sub-subtitles
+

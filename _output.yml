@@ -1,0 +1,11 @@
+bookdown::gitbook:
+  css: style.css
+  split_by: "chapter+number"
+  config:
+    toc:
+      collapse: section
+      scroll_highlight: true
+    edit:
+      link: https://github.com/alecri/%s
+  includes:
+    in_header: _includes/analytics.html
